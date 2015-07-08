@@ -1,0 +1,87 @@
+<html>   
+<head>   
+<meta charset="UTF-8">  
+<title>百兴音乐网</title>     
+<script type="text/javascript" src="app/public/js/jquery.min.js"></script>
+<script type="text/javascript" src="app/public/js/jquery.uploadify.min.js"></script>
+<link type="text/css" rel="stylesheet" href="app/public/css/uploadify.css">
+<style>
+		*
+	{
+		padding:0;
+		margin:0;
+		font-weight:bolder;
+		font-family:"微软雅黑";
+	}
+	body{
+		padding:50px;
+	}
+</style>
+</head>
+<body>
+	选择上传音乐的分类:
+	<select>
+		
+	</select><br><br>
+	<input type="file" id="dbx_file">
+	<div style="display:none;" id="dbx_val">{$all_cates}</div>
+</body>	
+</html>
+<script>
+	$(function(){
+		var v=$.parseJSON($("#dbx_val").html());
+		console.log(v);
+		for(var i in v){
+			if(v[i].id>=5){
+				continue;
+			}
+			$("<option>")
+				.html(v[i].chinese_name)
+				.val(v[i].id)
+			.appendTo($("select"))
+		}
+		$("select").change(function(){
+			$("#dbx_file").uploadify({
+		        'swf': 'app/public/media/uploadify.swf',
+		        'auto': true,
+		        'fileSizeLimit':'1000MB',
+		        'buttonCursor':'hand',
+		        'multi': true,
+		        'uploader':"index.php?m=Admin&a=uploadify_do",
+		        'formData':{
+		        	cat_id:$("select").val()
+		        }
+	    	});
+		})
+		
+		
+		$("#dbx_file").uploadify({
+		        'swf': 'app/public/media/uploadify.swf',
+		        'auto': true,
+		        'fileSizeLimit':'1000MB',
+		        'buttonCursor':'hand',
+		        'multi': true,
+		        'uploader':"index.php?m=Admin&a=uploadify_do",
+		        'formData':{
+		        	cat_id:$("select").val()
+		        },
+            	'onUploadSuccess':function(file, data, response){
+                    console.log(data);
+                    console.log(response);
+                }
+	    	});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	})
+</script>
